@@ -13,6 +13,9 @@ class Pancake_stack
         public:
 //              void push_back(Pancake& p);
                 void flip(int);
+                int myrandom(int);
+                vector<int> random_pancake(int);
+                int calc_score();
         private:
                 // Functions
         private:
