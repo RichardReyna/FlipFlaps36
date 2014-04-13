@@ -5,10 +5,14 @@
 
 int main()
 {
+        bool running = true;
+
         try
         {
                 Screen2 win(Point(100, 100), 640, 480, "wind");
+
                 return gui_main();
+
         }
 
         catch(exception& e)
@@ -23,4 +27,3 @@ int main()
                 return 2;
         }
 }
-
