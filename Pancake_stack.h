@@ -9,12 +9,10 @@
 #include <vector>       // std::vector
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
-
-class Pancake;
+#include "Pancake.h"
 
 class Pancake_stack
 {
-        Vector_ref<Pancake> pancakes;
         public:
 //              void push_back(Pancake& p);
                 void flip(int);
@@ -22,8 +20,11 @@ class Pancake_stack
                 vector <int> random_pancake(int);
                 int calc_score();
                 int find_solution();
+                void init_stack();
+
+                Vector_ref<Pancake> pancakes;
         private:
-                // Functions
+                //...
         private:
                 int difficulty;
                 int num_flips;
