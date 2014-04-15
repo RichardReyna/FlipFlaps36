@@ -29,7 +29,7 @@ int Pancake_stack::find_solution()
         //...
 }
 
-vector <int> Pancake_stack::random_pancake (Vector_ref <Pancake> p)
+void Pancake_stack::random_pancake (Vector_ref <Pancake> p)
 {
 //      srand ( unsigned (time(0) ) );
 //      random_shuffle ( p.begin(), p.end(), myrandom);
