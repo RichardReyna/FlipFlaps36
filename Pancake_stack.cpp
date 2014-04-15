@@ -29,11 +29,18 @@ int Pancake_stack::find_solution()
         //...
 }
 
-void Pancake_stack::random_pancake (Vector_ref <Pancake> p)
+
+//      vector<int> pancake;
+//      for (int i=0; i<difficulty; ++i)
+//              pancake.push_back(i);
+
+vector <int> Pancake_stack::random_pancake (int difficulty)
 {
 //      srand ( unsigned (time(0) ) );
-//      random_shuffle ( p.begin(), p.end(), myrandom);
+//      random_shuffle ( pancake.begin(), pancake.end(), myrandom);
+
 }
+
 
 
 //Calculates user's score
