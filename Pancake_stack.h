@@ -10,25 +10,25 @@
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
 #include "Pancake.h"
+#include "find_solution.h"
 
 class Pancake_stack
 {
         public:
-//              void push_back(Pancake& p);
                 void flip(int);
-                int myrandom(int);
+                int gen_rand(int);
                 vector <int> random_pancake(int);
                 int calc_score();
-                int find_solution();
+                void store_score();
                 void init_stack();
-
+                void randomize_stack(Vector_ref <Pancake>);
                 Vector_ref<Pancake> pancakes;
         private:
                 //...
         private:
                 int difficulty;
                 int num_flips;
-
+                int score;
 };
 
 #endif
