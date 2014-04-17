@@ -19,16 +19,6 @@ void Pancake_stack::init_stack()
 }
 
 
-void Pancake_stack::randomize_stack(Vector_ref <Pancake> p)
-{
-        for(int i = 0; i < p.size(); ++i)
-        {
-                //...
-        }
-//      srand(unsigned(time(0)));
-//      random_shuffle(p.begin(), p.end(), myrandom);
-}
-
 void Pancake_stack::flip(int n)
 {
         // garbage to avoid compiler warnings
@@ -42,15 +32,13 @@ int Pancake_stack::gen_rand(int i)
 
 vector <int> Pancake_stack::random_pancake (int difficulty)
 {
-//      srand ( unsigned (time(0) ) );
-//      vector<int> pancake;
-//      for (int i=0; i<difficulty; ++i)
-//              pancake.push_back(i);
-//      random_shuffle ( pancake.begin(), pancake.end(), myrandom);
-        vector<int> v;
-        v.resize(difficulty);
-
-        return v;
+     srand ( unsigned (time(0) ) );
+        vector <Pancake> *p;
+        for (int x=0; x<difficulty; ++x)
+          p.push_back(new Pancake (Point 240 - 12 * x , 160 + 12 * x ));
+         random_shuffle ( p.begin(), p.end(), myrandom);
+        vector_ref <Pancake> randomized; 
+        randomized.push_back(p);
 }
 
 //Calculates user's score
