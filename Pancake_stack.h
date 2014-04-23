@@ -22,7 +22,7 @@ class Pancake_stack
                 void store_score();
                 void init_stack();
                 void randomize_stack(Vector_ref <Pancake>);
-                Vector_ref<Pancake> pancakes;
+                Vector_ref<Pancake> randomized_stack;
         private:
                 //...
         private:
