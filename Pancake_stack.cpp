@@ -32,12 +32,20 @@ int Pancake_stack::gen_rand(int i)
 
 vector <int> Pancake_stack::random_pancake (int difficulty)
 {
-     srand ( unsigned (time(0) ) );
-        vector <Pancake> *p;
-        for (int x=0; x<difficulty; ++x)
-          p.push_back(new Pancake (Point 240 - 12 * x , 160 + 12 * x ));
-         random_shuffle ( p.begin(), p.end(), myrandom);
-        randomized_stack.push_back(p);
+    // srand ( unsigned (time(0) ) );
+      //  vector <Pancake> *p;
+      //  for (int x=0; x<difficulty; ++x)
+      //    p.push_back(new Pancake (Point (240 - 12 * x , 160 + 12 * x ), 150 + 24 * x));
+       //  random_shuffle ( p.begin(), p.end(), gen_rand);
+      //  randomized_stack.push_back(p);
+      
+      Pancake []*p = new Pancake [10];
+      for (int i=0; i<difficulty; ++i)
+        {
+                random_shuffle(p.begin(), p.end(),gen_rand);
+        }
+        for (int i=0;i<10;++i)
+                randomized.push_back(p[i]);
 }
 
 //Calculates user's score
