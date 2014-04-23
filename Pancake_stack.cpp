@@ -37,7 +37,6 @@ vector <int> Pancake_stack::random_pancake (int difficulty)
         for (int x=0; x<difficulty; ++x)
           p.push_back(new Pancake (Point 240 - 12 * x , 160 + 12 * x ));
          random_shuffle ( p.begin(), p.end(), myrandom);
-        vector_ref <Pancake> randomized; 
         randomized.push_back(p);
 }
 
