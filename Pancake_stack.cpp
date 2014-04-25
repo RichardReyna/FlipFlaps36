@@ -49,10 +49,6 @@ void Pancake_stack::randomize_stack(int difficulty)
 		pancakes[i].set_fill_color(Color::yellow);}	
 }
 
-
-
-
-
 //Calculates user's score
 int Pancake_stack::calc_score(){
         int score = 0;
