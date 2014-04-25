@@ -26,7 +26,7 @@ void Pancake_stack::flip(int n)
 }
 
 //Random number generator
-int myrandom (int i) { return rand()%i;}
+int gen_rand (int i) { return rand()%i;}
 //Put pancakes into random order
 void Pancake_stack::randomize_stack(int difficulty)
 {
@@ -37,7 +37,7 @@ void Pancake_stack::randomize_stack(int difficulty)
 	for (int i=0; i<difficulty; ++i){
 		index.push_back(i);}
 		
-	random_shuffle(index.begin(), index.end(), myrandom);
+	random_shuffle(index.begin(), index.end(), gen_rand);
 	
 	for (int i=0;i<index.size();++i)
 		p.push_back (new Pancake (Point (240 - 12 * index[i], 160 + 12 * i), 150 + 24 * index[i]));
