@@ -1,5 +1,5 @@
 #include "Pancake_stack.h"
-//#include "Pancake.h"
+#include "Pancake.h"
 
 void Pancake_stack::init_stack()
 {
@@ -25,28 +25,33 @@ void Pancake_stack::flip(int n)
         ++n;
 }
 
-int Pancake_stack::gen_rand(int i)
+//Random number generator
+int myrandom (int i) { return rand()%i;}
+//Put pancakes into random order
+void Pancake_stack::randomize_stack(int difficulty)
 {
-        return rand()%i;
+	srand ( unsigned ( time(0) ) );
+	vector<int> index;
+	vector <Pancake*> p;
+	
+	for (int i=0; i<difficulty; ++i){
+		index.push_back(i);}
+		
+	random_shuffle(index.begin(), index.end(), myrandom);
+	
+	for (int i=0;i<index.size();++i)
+		p.push_back (new Pancake (Point (240 - 12 * index[i], 160 + 12 * i), 150 + 24 * index[i]));
+		
+	for(int i=0;i<p.size();++i)
+		pancakes.push_back(p[i]);
+		
+	for(int i = 0; i < pancakes.size(); ++i){
+		pancakes[i].set_fill_color(Color::yellow);}	
 }
 
-vector <int> Pancake_stack::random_pancake (int difficulty)
-{
-    // srand ( unsigned (time(0) ) );
-      //  vector <Pancake> *p;
-      //  for (int x=0; x<difficulty; ++x)
-      //    p.push_back(new Pancake (Point (240 - 12 * x , 160 + 12 * x ), 150 + 24 * x));
-       //  random_shuffle ( p.begin(), p.end(), gen_rand);
-      //  randomized_stack.push_back(p);
-      
-      Pancake []*p = new Pancake [10];
-      for (int i=0; i<difficulty; ++i)
-        {
-                random_shuffle(p.begin(), p.end(),gen_rand);
-        }
-        for (int i=0;i<10;++i)
-                randomized.push_back(p[i]);
-}
+
+
+
 
 //Calculates user's score
 int Pancake_stack::calc_score(){
