@@ -14,22 +14,20 @@
 
 class Pancake_stack
 {
-        public:
-                vector<Pancake> pp;
-                void flip(int);
-                int calc_score();
-                void store_score();
-                void init_stack();
-                void randomize_stack(int);
-                Vector_ref<Pancake> pancakes;
-                vector<Pancake*> p;
-                vector<int> index;
-        private:
-                //...
-        private:
-                int difficulty;
-                int num_flips;
-                int score;
+	public:
+		void flip(int);
+		int gen_rand(int);
+		void randomize_stack(int);
+		int calc_score();
+		void init_stack();
+		vector<Pancake> pp;
+		Vector_ref<Pancake> pancakes;
+	private:
+		//...
+	private:
+		int difficulty;
+		int num_flips;
+		int score;
 };
 
 #endif
