@@ -14,56 +14,50 @@ using namespace std;
 
 class Pancake;
 class Pancake_stack;
-
-enum Game_State
-{
-        Start, Game, End
-};
+class Player;
 
 struct Screen2 : Graph_lib::Window
 {
-        public:
-                Screen2(Point, int, int, const string&);
-                Game_State get_state();
-                int get_diff();
-        private:
-                void change(Game_State s);
-
+	public:
+		Screen2(Point, int, int, const string&);
+	private:
+		void instructions_pressed();
                 void game_state_pressed();
-//              int get_diff();
                 void end_state_pressed();
-                void quit();
-                void set_place(int);
+		void quit();
+		void flip_p();
+		void draw_high_scores();
+		void draw_pancakes();
+		void erase_pancakes();
+		void erase_high_scores();
 
+		static void cb_flip(Address, Address);
+		static void cb_to_instructions(Address, Address);
                 static void cb_to_game_state(Address, Address);
                 static void cb_to_end_state(Address, Address);
-                static void cb_get_diff(Address, Address);
-                static void cb_quit(Address, Address);
-                static void cb_place_1(Address, Address);
-/*                static void cb_place_2(Address, Address);
-                static void cb_place_3(Address, Address);
-                static void cb_place_4(Address, Address);
-                static void cb_place_5(Address, Address);
-                static void cb_place_6(Address, Address);
-                static void cb_place_7(Address, Address);
-                static void cb_place_8(Address, Address);
-                static void cb_place_9(Address, Address);*/
-        private:
-                Button to_game_state;
+		static void cb_get_diff(Address, Address);
+		static void cb_quit(Address, Address);
+	private:
+		Button to_instructions;
+		Image splash;
+		Image instructions;
+		In_box get_name;
+		Button flip;
+//		Button to_instructions;
+	        Button to_game_state;
                 Button to_end_state;
-                Button to_quit;
-                In_box difficulty;
-                Button place_1;
-/*                Button place_2;
-                Button place_3;
-                Button place_4;
-                Button place_5;
-                Button place_6;
-                Button place_7;
-                Button place_8;
-                Button place_9;*/
-                int diff;
-                int place;
+		Button to_quit;
+		In_box difficulty;
+		In_box pick_place;
+		Text score_table;
+//		Image splash;
+		Vector_ref<Text> names;
+		Vector_ref<Text> scores;
+		Vector_ref<Text> ppp;
+//		vector<Pancake> temp_pancakes;
+		int place;
+		int num_of_tries;
+		bool sorted;
 };
 
 #endif
