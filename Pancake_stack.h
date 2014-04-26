@@ -15,12 +15,12 @@
 class Pancake_stack
 {
 	public:
-		void flip(int);
-		int gen_rand(int);
-		void randomize_stack(int);
+		void make_stack(int);
 		int calc_score();
-		void init_stack();
-		vector<Pancake> pp;
+		void flip(int);
+		bool check_sorted();
+		void set_num_flips(int);
+		vector<int> get_index();
 		Vector_ref<Pancake> pancakes;
 	private:
 		//...
@@ -28,6 +28,10 @@ class Pancake_stack
 		int difficulty;
 		int num_flips;
 		int score;
+		vector<Pancake> pp;
+		vector<Pancake*> p;
+		vector<int> index;
+		vector<Pancake*> temp_stack;
 };
 
 #endif
