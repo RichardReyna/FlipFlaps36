@@ -4,194 +4,213 @@
 
 #include "Pancake.h"
 #include "Pancake_stack.h"
+#include "Player.h"
 
-Game_State state = Game_State::Start;
 Pancake_stack pp;
+Player player;
 
-Game_State Screen2::get_state()
-{
-        return state;
-}
+int num_of_games = 0;
 
+// Constructs window and screen elements.
 Screen2::Screen2(Point xy, int w, int h, const string& title)
-        : Window(xy, w, h, title),
-        to_game_state(Point(x_max() - 120, 0), 70, 20, "TO GAME", cb_to_game_state),
-        to_end_state(Point(x_max() - 120, 0), 70, 20, "TO END", cb_to_end_state),
-        to_quit(Point(x_max() - 120, 20), 70, 20, "QUIT", cb_quit),
-        difficulty(Point(120, 0), 50, 20, "Enter diff here: "),
-        place_1(Point(x_max() - 120, 20), 70, 20, "Place 1", cb_place_1)
-//        place_2(Point(x_max() - 120, 40), 70, 20, "Place 2", cb_place_2),
-//        place_3(Point(x_max() - 120, 60), 70, 20, "Place 3", cb_place_3),
-//        place_4(Point(x_max() - 120, 80), 70, 20, "Place 4", cb_place_4),
-//        place_5(Point(x_max() - 120, 100), 70, 20, "Place 5", cb_place_5),
-//        place_6(Point(x_max() - 120, 120), 70, 20, "Place 6", cb_place_6),
-//        place_7(Point(x_max() - 120, 140), 70, 20, "Place 7", cb_place_7),
-//        place_8(Point(x_max() - 120, 160), 70, 20, "Place 8", cb_place_8),
-//        place_9(Point(x_max() - 120, 180), 70, 20, "Place 9", cb_place_9)
+	: Window(xy, w, h, title),
+        to_instructions(Point(x_max() - 380, 0), 140, 20, "TO INSTRUCTIONS", cb_to_instructions),
+	splash(Point(0, 20), "SPLASH_REAL.jpg"),
+	instructions(Point(0, 20), "DIRECTIONS_REAL.jpg"),
+	get_name(Point(120, 0), 50, 20, "Enter name here: "),
+	flip(Point(x_max() - 320, 340), 70, 20, "FLIP", cb_flip),
+	to_game_state(Point(x_max() - 120, 0), 70, 20, "TO GAME", cb_to_game_state),
+	to_end_state(Point(x_max() - 120, 0), 70, 20, "TO END", cb_to_end_state),
+	to_quit(Point(x_max() - 120, 20), 70, 20, "QUIT", cb_quit),
+	difficulty(Point(320, 0), 50, 20, "Enter diff here: "),
+	pick_place(Point(x_max() - 320, 400), 70, 20, "Enter place here: "),
+	score_table(Point(x_max() - 240, 60), "Scores: \t\t\tPlayers: ")
 {
-        attach(to_game_state);
-        attach(to_end_state);
-        attach(to_quit);
-        attach(difficulty);
-        attach(place_1);
+	attach(splash);
+	color(Color::white);
+	attach(flip);
+	attach(to_instructions);
+	attach(to_game_state);
+	attach(to_end_state);
+	attach(to_quit);
+	attach(pick_place);
+	attach(score_table);
 
-        to_end_state.hide();
-        to_quit.hide();
-        place_1.hide();
-//      place_2.hide();
-//      place_3.hide();
-//      place_4.hide();
-//      place_5.hide();
-//      place_6.hide();
-//      place_7.hide();
-//      place_8.hide();
-//      place_9.hide();
+	detach(flip);
+	to_game_state.hide();
+	to_end_state.hide();
+	to_quit.hide();
+	pick_place.hide();
+	detach(score_table);
 }
 
-void Screen2::change(Game_State s)
+void Screen2::instructions_pressed()
 {
-        state = s;
+	detach(splash);
+	detach(to_instructions);
+	attach(instructions);
+	attach(get_name);
+	attach(difficulty);
+	attach(to_game_state);
 }
 
+// Creates random stack of pancakes and draws them
+// allowing game loop to start.
 void Screen2::game_state_pressed()
 {
-        cout << difficulty.get_int() << endl;
-        pp.init_stack();
-//      randomize_stack(pp);
+	num_of_tries = 0;
+	pp.make_stack(difficulty.get_int());
+	draw_pancakes();
+	pick_place.show();
+	attach(flip);
 
-        for(int i = 0; i < difficulty.get_int(); ++i)
-        {
-                attach(pp.pancakes[i]);
-        }
+	player.set_name(get_name.get_string());
 
-        to_game_state.hide();
-        to_quit.hide();
-        difficulty.hide();
-        to_end_state.show();
-        place_1.show();
-//      place_2.show();
-//      place_3.show();
-//      place_4.show();
-//      place_5.show();
-//      place_6.show();
-//      place_7.show();
-//      place_8.show();
-//      place_9.show();
+	detach(instructions);
+	get_name.hide();
+	to_game_state.hide();
+	to_quit.hide();
+	difficulty.hide();
+	detach(score_table);
+        erase_high_scores();
 
-        Fl::redraw();
-
-        change(Game_State::Game);
+	Fl::redraw();
 }
 
-int Screen2::get_diff()
-{
-        return difficulty.get_int();
-}
-
+// Sets score from last game played and writes
+// score/name pair to file which is then sorted.
 void Screen2::end_state_pressed()
 {
-        for(int i = 0; i < difficulty.get_int(); ++i)
-        {
-                detach(pp.pancakes[i]);
-        }
+//	int score = pp.calc_score();
+//	if(score < 100){score = 100;}
+//	player.set_score(score);
+//	player.store_high_score();
 
-//      pp.pancakes.~Vector_ref();
-//      Pancake_stack pp;
+	erase_pancakes();
+	pick_place.hide();
+	detach(flip);
 
-        to_end_state.hide();
-        difficulty.hide();
-        place_1.hide();
-//      place_2.hide();
-//      place_3.hide();
-//      place_4.hide();
-//      place_5.hide();
-//      place_6.hide();
-//      place_7.hide();
-//      place_8.hide();
-//      place_9.hide();
-        to_quit.show();
-        to_game_state.show();
-        difficulty.show();
+	to_end_state.hide();
+
+	to_quit.show();
+	to_game_state.show();
+	difficulty.show();
+	get_name.show();
+
+	++num_of_games;
+	Fl::redraw();
+
+	//sort high scores and clear high score container
+	player.sort_high_scores();
+	ppp = Vector_ref<Text>();
+
+	draw_high_scores();
 
         Fl::redraw();
-
-        change(Game_State::End);
 }
 
+// Ends game by destroying window
 void Screen2::quit()
 {
         hide();
 }
 
-void Screen2::set_place(int p)
+void Screen2::flip_p()
 {
-        place = p;
-        cout << place << endl;
+	++num_of_tries;
+	erase_pancakes();
+	pp.flip(pick_place.get_int());
+	draw_pancakes();
+
+	if(num_of_tries == 15)
+	{
+		erase_pancakes();
+		detach(flip);
+		pick_place.hide();
+		attach(to_end_state);
+	}
+
+	if(pp.check_sorted())
+	{
+		int score = pp.calc_score();
+		if(score < 100){score = 100;}
+		player.set_score(score);
+		player.store_high_score();
+                erase_pancakes();
+                detach(flip);
+		pick_place.hide();
+		attach(to_end_state);
+	}
+	Fl::redraw();
 }
 
-void Screen2::cb_get_diff(Address, Address pw)
+// Gets sorted score/name pairs from persistent file
+// and uses them to create/draw the score table
+void Screen2::draw_high_scores()
 {
-        reference_to<Screen2>(pw).get_diff();
+	// Show table title
+	attach(score_table);
+
+	for(int i = 0; i < 6; ++i)
+	{
+		string str = player.get_high_score(i);
+                Text * t = new Text(Point(x_max() - 240, 80 + 20 * i), str);
+		t->set_color(Color::black);
+		ppp.push_back(*t);
+		attach(ppp[i]);
+	}
 }
 
+// Draws pancake objects
+void Screen2::draw_pancakes()
+{
+        for(int i = 0; i < difficulty.get_int(); ++i)
+        {
+                attach(pp.pancakes[i]);
+        }
+}
+
+// Erases pancake objects
+void Screen2::erase_pancakes()
+{
+        for(int i = 0; i < difficulty.get_int(); ++i)
+        {
+                detach(pp.pancakes[i]);
+        }
+}
+
+void Screen2::erase_high_scores()
+{
+        for(int i = 0; i < ppp.size(); ++i)
+        {
+                detach(ppp[i]);
+        }
+}
+
+// Calls quit to destroy the window
 void Screen2::cb_quit(Address, Address pw)
 {
-        reference_to<Screen2>(pw).quit();
+	reference_to<Screen2>(pw).quit();
 }
 
+void Screen2::cb_flip(Address, Address pw)
+{
+	reference_to<Screen2>(pw).flip_p();
+}
+
+void Screen2::cb_to_instructions(Address, Address pw)
+{
+	reference_to<Screen2>(pw).instructions_pressed();
+}
+
+// Switches game to game state
 void Screen2::cb_to_game_state(Address, Address pw)
 {
-        reference_to<Screen2>(pw).game_state_pressed();
+	reference_to<Screen2>(pw).game_state_pressed();
 }
 
+// Switches game to end state
 void Screen2::cb_to_end_state(Address, Address pw)
 {
-        reference_to<Screen2>(pw).end_state_pressed();
+	reference_to<Screen2>(pw).end_state_pressed();
 }
-
-void Screen2::cb_place_1(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(1);
-}
-
-/*
-void Screen2::cb_place_2(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(2);
-}
-
-void Screen2::cb_place_3(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(3);
-}
-
-void Screen2::cb_place_4(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(4);
-}
-
-void Screen2::cb_place_5(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(5);
-}
-
-void Screen2::cb_place_6(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(6);
-}
-
-void Screen2::cb_place_7(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(7);
-}
-
-void Screen2::cb_place_8(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(8);
-}
-
-void Screen2::cb_place_9(Address, Address pw)
-{
-        reference_to<Screen2>(pw).set_place(9);
-}
-*/
